@@ -89,12 +89,24 @@ module.exports = {
 
 
   /**
-   * `PostController.findOne()`
+   * find single post based on id
    */
   findOne: function (req, res) {
-    return res.json({
-      todo: 'findOne() is not implemented yet!'
-    });
+
+     let postId = req.params.id;
+     
+      if(!postId ) return res.badRequest({err: 'missing post_id field'});
+
+     Post.findOne({id:postId})
+     .populate('category')
+     .populate('user')
+     .then(_post => {
+
+        if(!_post) return res.notFound({err:'No post found'});
+        
+        return res.json({post : _post});
+     })
+     .catch(err => res.serverError(err));
   }
 };
 

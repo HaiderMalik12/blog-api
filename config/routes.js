@@ -39,5 +39,6 @@ module.exports.routes = {
  //post
  'POST /post' : 'PostController.create',
  'GET /posts' : 'PostController.findAll',
+ 'GET /posts/:id' : 'PostController.findOne',
 
 };
