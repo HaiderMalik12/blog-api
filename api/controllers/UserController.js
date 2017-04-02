@@ -10,12 +10,12 @@ module.exports = {
 
 
   /**
-   * `UserController.create()`
+   * It will create a new user .
    */
   create: function (req, res) {
     return res.json({
-      todo: 'create() is not implemented yet!'
-    });
+      ok:'Runing'
+    })
   }
 };
 
