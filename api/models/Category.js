@@ -8,10 +8,10 @@
 module.exports = {
 
   tableName:"categories",
-  
+
   attributes: {
 
-    title : { type: 'string' },
+    name : { type: 'string', unique: true, required: true },
 
     posts: {
       collection:'post',

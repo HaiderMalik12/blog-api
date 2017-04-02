@@ -32,7 +32,11 @@ module.exports.routes = {
   * for configuration options and examples.                                  *
   *                                                                          *
   ***************************************************************************/
+ 
+ //user
+ 'POST /user' : 'UserController.create',
 
- 'POST /user' : 'UserController.create'
+ //post
+ 'POST /post' : 'PostController.create',
 
 };

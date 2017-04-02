@@ -6,16 +6,35 @@
  */
 
 module.exports = {
-	
+
 
 
   /**
-   * `PostController.create()`
+   * This method will create a new post for user
    */
   create: function (req, res) {
-    return res.json({
-      todo: 'create() is not implemented yet!'
-    });
+
+    let title = req.param('title'),
+      content = req.param('content'),
+      userId = req.param('user_id'),
+      categoryName = req.param('category_name');
+
+    if (!title) return res.badRequest({ err: 'Invalid post title field' });
+    if (!content) return res.badRequest({ err: 'Invalid post content field' });
+    if (!userId) return res.badRequest({ err: 'Invalid user_id field' });
+    if (!categoryName) return res.badRequest({ err: 'Invalid category_name field' });
+
+    Category.findOrCreate({ name: categoryName })
+      .then(_category => {
+
+        if (!_category) return res.serverError({ err: 'Unable to create category record' });
+
+        return res.json({ _category });
+
+      })
+      .catch(err => res.serverError(err.message));
+
+
   },
 
 
