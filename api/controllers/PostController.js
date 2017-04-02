@@ -56,16 +56,56 @@ module.exports = {
    */
   update: function (req, res) {
     
+      let title = req.param('title'),
+      content = req.param('content'),
+      userId = req.param('user_id'),
+      categoryId = req.param('category_id'),
+      postId = req.params.id;
+
+      if(!postId) return res.badRequest({err: 'post id is missing'});
+
+      let post = {};
+
+    if (title) {
+      post.title = title;
+    }
+    if (content){
+      post.content = content;
+    }
+    if (userId){
+      post.user = userId;
+    }
+    if (categoryId) {
+      post.category = categoryId
+    }
+
+    Post.update({id: postId},post)
+    .then(_post => {
+
+      if(!_post[0] || _post[0].length ===0) return res.notFound({err: 'No post found'});
+
+      return res.json({
+        post : _post
+      });
+
+    }).catch(err => res.serverError(err));
   },
 
 
   /**
-   * `PostController.delete()`
+   * This method will delete the post
    */
   delete: function (req, res) {
-    return res.json({
-      todo: 'delete() is not implemented yet!'
-    });
+    let postId = req.params.id;
+     
+      if(!postId ) return res.badRequest({err: 'missing post_id field'});
+
+     Post.destroy({id:postId})
+     .then(_post => {
+       if(!_post || _post.length ===0) return res.notFound({err: 'No post found in our record'});
+       return res.json({msg :`Post is deleted with id ${postId}`});
+     })
+     .catch(err => res.serverError(err));
   },
 
 
@@ -73,6 +113,7 @@ module.exports = {
    * Find all the posts with category and user
    */
   findAll: function (req, res) {
+
     Post.find()
     .populate('user')
     .populate('category')

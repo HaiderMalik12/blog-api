@@ -32,13 +32,15 @@ module.exports.routes = {
   * for configuration options and examples.                                  *
   *                                                                          *
   ***************************************************************************/
- 
- //user
- 'POST /user' : 'UserController.create',
 
- //post
- 'POST /post' : 'PostController.create',
- 'GET /posts' : 'PostController.findAll',
- 'GET /posts/:id' : 'PostController.findOne',
+  //user
+  'POST /user': 'UserController.create',
+
+  //post
+  'POST /post': 'PostController.create',
+  'GET /posts': 'PostController.findAll',
+  'GET /posts/:id': 'PostController.findOne',
+  'DELETE /posts/:id': 'PostController.delete',
+  'PUT /posts/:id': 'PostController.update',
 
 };
