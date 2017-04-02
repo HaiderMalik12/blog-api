@@ -17,7 +17,13 @@ module.exports = {
 
     first_name : { type: 'string' },
 
-    last_name : { type: 'string' }
+    last_name : { type: 'string' },
+
+     posts:{
+       collection: 'post',
+       via:'user'
+  
+     }
   }
 };
 
