@@ -52,12 +52,10 @@ module.exports = {
 
 
   /**
-   * `PostController.update()`
+   * This method will update the post
    */
   update: function (req, res) {
-    return res.json({
-      todo: 'update() is not implemented yet!'
-    });
+    
   },
 
 
@@ -72,12 +70,21 @@ module.exports = {
 
 
   /**
-   * `PostController.findAll()`
+   * Find all the posts with category and user
    */
   findAll: function (req, res) {
-    return res.json({
-      todo: 'findAll() is not implemented yet!'
-    });
+    Post.find()
+    .populate('user')
+    .populate('category')
+    .then(_posts => {
+
+      if(!_posts || _posts.length === 0) {
+        throw new Error('No post found');
+      }
+      return res.json({posts:_posts});
+
+    })
+    .catch(err => res.serverError(err));
   },
 
 
