@@ -36,14 +36,14 @@ module.exports = {
         return Post.create({
           title,
           content,
-          user:userId,
-          category : _category.id
+          user: userId,
+          category: _category.id
         });
 
       })
       .then(_post => {
-        if(!_post) throw new Error('Unable to create new post');
-        return res.json({post:_post});
+        if (!_post) throw new Error('Unable to create new post');
+        return res.json({ post: _post });
       })
       .catch(err => res.serverError(err.message));
 
@@ -55,40 +55,40 @@ module.exports = {
    * This method will update the post
    */
   update: function (req, res) {
-    
-      let title = req.param('title'),
+
+    let title = req.param('title'),
       content = req.param('content'),
       userId = req.param('user_id'),
       categoryId = req.param('category_id'),
       postId = req.params.id;
 
-      if(!postId) return res.badRequest({err: 'post id is missing'});
+    if (!postId) return res.badRequest({ err: 'post id is missing' });
 
-      let post = {};
+    let post = {};
 
     if (title) {
       post.title = title;
     }
-    if (content){
+    if (content) {
       post.content = content;
     }
-    if (userId){
+    if (userId) {
       post.user = userId;
     }
     if (categoryId) {
       post.category = categoryId
     }
 
-    Post.update({id: postId},post)
-    .then(_post => {
+    Post.update({ id: postId }, post)
+      .then(_post => {
 
-      if(!_post[0] || _post[0].length ===0) return res.notFound({err: 'No post found'});
+        if (!_post[0] || _post[0].length === 0) return res.notFound({ err: 'No post found' });
 
-      return res.json({
-        post : _post
-      });
+        return res.json({
+          post: _post
+        });
 
-    }).catch(err => res.serverError(err));
+      }).catch(err => res.serverError(err));
   },
 
 
@@ -97,15 +97,15 @@ module.exports = {
    */
   delete: function (req, res) {
     let postId = req.params.id;
-     
-      if(!postId ) return res.badRequest({err: 'missing post_id field'});
 
-     Post.destroy({id:postId})
-     .then(_post => {
-       if(!_post || _post.length ===0) return res.notFound({err: 'No post found in our record'});
-       return res.json({msg :`Post is deleted with id ${postId}`});
-     })
-     .catch(err => res.serverError(err));
+    if (!postId) return res.badRequest({ err: 'missing post_id field' });
+
+    Post.destroy({ id: postId })
+      .then(_post => {
+        if (!_post || _post.length === 0) return res.notFound({ err: 'No post found in our record' });
+        return res.json({ msg: `Post is deleted with id ${postId}` });
+      })
+      .catch(err => res.serverError(err));
   },
 
 
@@ -115,17 +115,17 @@ module.exports = {
   findAll: function (req, res) {
 
     Post.find()
-    .populate('user')
-    .populate('category')
-    .then(_posts => {
+      .populate('user')
+      .populate('category')
+      .then(_posts => {
 
-      if(!_posts || _posts.length === 0) {
-        throw new Error('No post found');
-      }
-      return res.json({posts:_posts});
+        if (!_posts || _posts.length === 0) {
+          throw new Error('No post found');
+        }
+        return res.json({ posts: _posts });
 
-    })
-    .catch(err => res.serverError(err));
+      })
+      .catch(err => res.serverError(err));
   },
 
 
@@ -134,20 +134,20 @@ module.exports = {
    */
   findOne: function (req, res) {
 
-     let postId = req.params.id;
-     
-      if(!postId ) return res.badRequest({err: 'missing post_id field'});
+    let postId = req.params.id;
 
-     Post.findOne({id:postId})
-     .populate('category')
-     .populate('user')
-     .then(_post => {
+    if (!postId) return res.badRequest({ err: 'missing post_id field' });
 
-        if(!_post) return res.notFound({err:'No post found'});
-        
-        return res.json({post : _post});
-     })
-     .catch(err => res.serverError(err));
+    Post.findOne({ id: postId })
+      .populate('category')
+      .populate('user')
+      .then(_post => {
+
+        if (!_post) return res.notFound({ err: 'No post found' });
+
+        return res.json({ post: _post });
+      })
+      .catch(err => res.serverError(err));
   }
 };
 
