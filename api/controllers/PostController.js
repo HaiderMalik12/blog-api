@@ -27,10 +27,23 @@ module.exports = {
     Category.findOrCreate({ name: categoryName })
       .then(_category => {
 
-        if (!_category) return res.serverError({ err: 'Unable to create category record' });
+        if (!_category) throw new Error('Unable to create category record');
+        return _category;
 
-        return res.json({ _category });
+      })
+      .then(_category => {
 
+        return Post.create({
+          title,
+          content,
+          user:userId,
+          category : _category.id
+        });
+
+      })
+      .then(_post => {
+        if(!_post) throw new Error('Unable to create new post');
+        return res.json({post:_post});
       })
       .catch(err => res.serverError(err.message));
 
