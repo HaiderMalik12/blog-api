@@ -19,6 +19,8 @@ module.exports = {
 
    models: {
      connection: 'mongodbServer'
-   }
-
+   },
+   log:{
+    level :'verbose'
+  }
 };
