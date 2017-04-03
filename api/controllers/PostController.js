@@ -43,7 +43,7 @@ module.exports = {
       })
       .then(_post => {
         if (!_post) throw new Error('Unable to create new post');
-        return res.json({ post: _post });
+        return res.ok(_post);
       })
       .catch(err => res.serverError(err.message));
 
@@ -84,9 +84,7 @@ module.exports = {
 
         if (!_post[0] || _post[0].length === 0) return res.notFound({ err: 'No post found' });
 
-        return res.json({
-          post: _post
-        });
+        return res.ok(_post[0]);
 
       }).catch(err => res.serverError(err));
   },
@@ -103,7 +101,7 @@ module.exports = {
     Post.destroy({ id: postId })
       .then(_post => {
         if (!_post || _post.length === 0) return res.notFound({ err: 'No post found in our record' });
-        return res.json({ msg: `Post is deleted with id ${postId}` });
+        return res.ok({msg:`Post is deleted with id ${postId}`});
       })
       .catch(err => res.serverError(err));
   },
@@ -122,7 +120,7 @@ module.exports = {
         if (!_posts || _posts.length === 0) {
           throw new Error('No post found');
         }
-        return res.json({ posts: _posts });
+        return res.ok(_posts);
 
       })
       .catch(err => res.serverError(err));
@@ -145,7 +143,7 @@ module.exports = {
 
         if (!_post) return res.notFound({ err: 'No post found' });
 
-        return res.json({ post: _post });
+        return res.ok(_post);
       })
       .catch(err => res.serverError(err));
   }

@@ -35,9 +35,7 @@ module.exports = {
     .then(_user => {
       if(!_user) return res.serverError({err:'Unable to create user'});
        
-       return res.json({
-         user:_user
-       });
+       return res.ok(_user);
     })
     .catch(err => res.serverError(err.message));
   }
